@@ -50,6 +50,7 @@ require(['backbone'], function (Backbone) {
   var AppView = Backbone.View.extend({
     el: "body",
     initialize: function() {
+      //by default all we want to do is show a new shelf view with all books
       this.shelf = new ShelfView();
       this.shelf.render();
     }
