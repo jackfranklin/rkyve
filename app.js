@@ -1,3 +1,4 @@
+
 require(['backbone'], function (Backbone) {
 
   var Book = Backbone.Model.extend({
@@ -73,3 +74,4 @@ require(['backbone'], function (Backbone) {
     var app = new AppView();
   });
 });
+>>>>>>> origin/master
