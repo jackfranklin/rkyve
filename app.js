@@ -1,8 +1,10 @@
 
 require(['backbone'], function (Backbone) {
+  window.currentBook = null;
 
   var Book = Backbone.Model.extend({
     defaults: { borrower: null },
+    url: "http://rkyve.herokuapp.com/books"
   });
 
   var Shelf = Backbone.Collection.extend({
@@ -56,7 +58,9 @@ require(['backbone'], function (Backbone) {
     },
     events: {
       "click #addBookButton":"showAddBook",
-      "click #viewBooksButton":"showViewBooks"
+      "click #viewBooksButton":"showViewBooks",
+      "submit #checkout_book_form":"checkOutBook",
+      "click .checkOutBookButton": "showCheckOutBook"
     },
     showAddBook:function(){
       $(".page").hide();
@@ -67,6 +71,34 @@ require(['backbone'], function (Backbone) {
       $(".page").hide();
       $("#all_books").show();
       return false;
+    },
+    showCheckOutBook: function(d) {
+      var elem = $(d.target);
+      var bookId = elem.attr("href").split("#")[1]
+      window.currentBook = bookId;
+      $(".page").hide();
+      $("#checkout_book").show();
+      return false;
+    },
+    checkOutBook: function(event) {
+      event.preventDefault();
+      var formData = $("#checkout_book_form").serialize();
+      console.log(formData);
+
+      $.ajax({
+        url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
+        dataType: 'json',
+        contentType: 'application/json',
+        type: "PUT",
+        success: function(d) { alert(d); },
+        data: { id: window.currentBook, borrower: formData.split("=")[1] }
+      });
+      //var book = new Book({
+        //id: window.currentBook,
+        //borrower: formData.split("=")[1]
+      //});
+      //book.save({wait: true});
+      //for now Backbone.save gives errors so lets just POST manually
     }
   });
 

@@ -34,7 +34,7 @@
     </div>
 
     <div id="checkout_book" class="page">
-      <form>
+      <form id="checkout_book_form">
         <div>
           <label>Your Name: </label>
           <input type="text" name="borrower" id="borrower" />
@@ -53,7 +53,7 @@
         <% } %>
         <p>
           <% if(borrower === null) { %>
-            <a href="#" class="checkOutBookButton">Check Out</a>
+            <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
           <% } else { %>
             <a href="#" id="check_in">Check In</a>
           <% } %>
