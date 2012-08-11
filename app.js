@@ -91,7 +91,7 @@ require(['backbone'], function (Backbone) {
         contentType: 'application/json',
         type: "PUT",
         success: function(d) { alert(d); },
-        data: { id: window.currentBook, borrower: formData.split("=")[1] }
+        data: JSON.stringify({ id: window.currentBook, borrower: formData.split("=")[1] })
       });
       //var book = new Book({
         //id: window.currentBook,
