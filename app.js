@@ -1,7 +1,8 @@
-require(['backbone'], function (Backbone) {
+﻿require(['backbone'], function (Backbone) {
 
   var Book = Backbone.Model.extend({
-    defaults: { borrower: null }
+    defaults: { borrower: null },
+	url: "http://rkyve.herokuapp.com/books"
   });
 
   var Shelf = Backbone.Collection.extend({ model: Book });
@@ -55,20 +56,31 @@ require(['backbone'], function (Backbone) {
       this.shelf.render();
     },
 	events:{
-		"click #addBookButton":"showAddBook",
-		"click #viewBooksButton":"showViewBooks"
+		"click #addBookButton" : "showAddBook",
+		"click #viewBooksButton" : "showViewBooks",
+		"submit #addBookForm" : "addBook"
 	},
-	showAddBook:function(){
+	showAddBook : function(){
 		$(".page").hide();
 		$("#add_book").show();
 		return false;
 	},
-	showViewBooks:function() {
+	showViewBooks : function() {
 		$(".page").hide();
 		$("#all_books").show();
 		return false;
+	},
+	addBook : function() {
+		var formValues = $("addBookForm").serialize();
+		var newBook = new Book();
+		newBook.save({
+			'title' : formValues.title,
+			'owner' : formValues.owner,
+			'location' : formValues.location
+		});
+		
+		return false;
 	}
-	
 	
   });
 
