@@ -14,3 +14,20 @@ li div {
 #nav li {
   display: inline-block;
 }
+
+.page {
+	display: none;
+}
+
+#all_books {
+	display: block;
+}
+
+label {
+	display: inline-block;
+	width: 200px;
+}
+
+input[type=text] {
+	width: 200px;
+}

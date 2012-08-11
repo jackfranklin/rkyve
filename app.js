@@ -27,18 +27,19 @@ require(['backbone'], function (Backbone) {
   var ShelfView = Backbone.View.extend({
     el: $("#all_books"),
     initialize: function() {
+      this.collection = bookShelf;
+      console.log(this.collection);
+      this.render();
+    },
+    render: function() {
       var self = this;
       bookShelf.fetch({
         success: function() {
-          self.collection = bookShelf;
-          self.render();
+          self.collection.each(function(item) {
+            this.renderItem(item);
+          }, self);
         }
       });
-    },
-    render: function() {
-      this.collection.each(function(item) {
-        this.renderItem(item);
-      }, this);
     },
     renderItem: function(item) {
       var bookView = new BookView({ model: item });
@@ -52,15 +53,24 @@ require(['backbone'], function (Backbone) {
     initialize: function() {
       //by default all we want to do is show a new shelf view with all books
       this.shelf = new ShelfView();
+    },
+    events: {
+      "click #addBookButton":"showAddBook",
+      "click #viewBooksButton":"showViewBooks"
+    },
+    showAddBook:function(){
+      $(".page").hide();
+      $("#add_book").show();
+      return false;
+    },
+    showViewBooks:function() {
+      $(".page").hide();
+      $("#all_books").show();
+      return false;
     }
   });
-
 
   $(function() {
     var app = new AppView();
   });
-
-
-
-
 });
