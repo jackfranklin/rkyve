@@ -7,12 +7,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="all_books"></div>
+    <ul id="nav">
+      <li><a href="#">View all Books</a></li>
+      <li><a href="#">Add Book</a></li>
+    </ul>
+
+    <ul id="all_books"></ul>
 
     <script id="single_book_template" type="text/template">
-      <li><%= title %></li>
-      <li><%= owner %></li>
-      <li><%= location %></li>
+      <div>
+        <h2>Title: <%= title %></h2>
+        <p>Owner: <%= owner %></p>
+        <p>Location: <%= location %></p>
+        <% if(borrower !== null) { %>
+          <p>Borrower: <%= borrower %></p>
+        <% } %>
+        <p>
+          <% if(borrower === null) { %>
+            <a href="#" id="check_out">Check Out</a>
+          <% } else { %>
+            <a href="#" id="check_in">Check In</a>
+          <% } %>
+        </p>
+      </div>
     </script>
   </body>
 

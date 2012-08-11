@@ -7,8 +7,8 @@ require(['backbone'], function (Backbone) {
   var Shelf = Backbone.Collection.extend({ model: Book });
 
   var test_books = [
-    { id: 1, title: "Code Complete", owner: "Will Hammill", location: "MC 12.2.2", borrower: "Stuart McKee" },
-    { id: 2, title: "Code Complete", owner: "Will Hammill", location: "MC 12.2.2", borrower: "Stuart McKee" },
+    { id: 1, title: "Code Complete", owner: "Will Hammill", location: "MC 12.2.2", borrower: null },
+    { id: 2, title: "Beginning Ruby", owner: "Jack Franklin", location: "MC 12.2.2", borrower: "Stuart McKee" },
     { id: 3, title: "Code Complete", owner: "Will Hammill", location: "MC 12.2.2", borrower: "Stuart McKee" },
     { id: 4, title: "Code Complete", owner: "Will Hammill", location: "MC 12.2.2", borrower: "Stuart McKee" },
     { id: 5, title: "Code Complete", owner: "Will Hammill", location: "MC 12.2.2", borrower: "Stuart McKee" }
@@ -17,7 +17,7 @@ require(['backbone'], function (Backbone) {
   var bookShelf = new Shelf(test_books);
 
   var BookView = Backbone.View.extend({
-    tagName: "ul",
+    tagName: "li",
     className: "book-individual",
     template: $("#single_book_template").html(),
 

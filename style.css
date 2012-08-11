@@ -1,0 +1,16 @@
+* { margin: 0; padding: 0; }
+
+li div {
+  margin-left: 10px;
+  border-left: 1px solid #111;
+  padding: 10px;
+}
+
+#nav {
+  list-style: none;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+#nav li {
+  display: inline-block;
+}
