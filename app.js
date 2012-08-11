@@ -28,7 +28,6 @@ require(['backbone'], function (Backbone) {
     el: $("#all_books"),
     initialize: function() {
       this.collection = bookShelf;
-      console.log(this.collection);
       this.render();
     },
     render: function() {
