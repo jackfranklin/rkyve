@@ -35,7 +35,6 @@ require(['backbone'], function (Backbone) {
     },
     render: function() {
       var self = this;
-      self.$el.html("");
       bookShelf.fetch({
         success: function() {
           self.collection.each(function(item) {
@@ -82,29 +81,24 @@ require(['backbone'], function (Backbone) {
       return false;
     },
     checkOutBook: function(event) {
-      var self = this;
       event.preventDefault();
       var formData = $("#checkout_book_form").serialize();
       console.log(formData);
 
-      //for now Backbone.save gives errors so lets just POST manually
       $.ajax({
         url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
         contentType: 'application/json',
         type: "PUT",
-        data: JSON.stringify({ id: window.currentBook, borrower: formData.split("=")[1] }),
-        success: function() {
-          self.shelf.render();
-          $("#viewBooksButton").trigger("click");
-        }
+        success: function(d) { alert(d); },
+        data: JSON.stringify({ id: window.currentBook, borrower: formData.split("=")[1] })
       });
-      //TODO: see if we can do the above with native Backbone
       //var book = new Book({
         //id: window.currentBook,
         //borrower: formData.split("=")[1]
       //});
       //book.save({wait: true});
+      //for now Backbone.save gives errors so lets just POST manually
     }
   });
 
