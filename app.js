@@ -74,4 +74,3 @@ require(['backbone'], function (Backbone) {
     var app = new AppView();
   });
 });
->>>>>>> origin/master
