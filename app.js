@@ -30,7 +30,7 @@ require(['backbone'], function (Backbone) {
   });
 
   var ShelfView = Backbone.View.extend({
-    el: $("#all_books"),
+    el: $("#all_books ul"),
     initialize: function() {
       this.collection = bookShelf;
       this.render();
@@ -53,7 +53,23 @@ require(['backbone'], function (Backbone) {
       //by default all we want to do is show a new shelf view with all books
       this.shelf = new ShelfView();
       this.shelf.render();
-    }
+    },
+	events:{
+		"click #addBookButton":"showAddBook",
+		"click #viewBooksButton":"showViewBooks"
+	},
+	showAddBook:function(){
+		$(".page").hide();
+		$("#add_book").show();
+		return false;
+	},
+	showViewBooks:function() {
+		$(".page").hide();
+		$("#all_books").show();
+		return false;
+	}
+	
+	
   });
 
 
