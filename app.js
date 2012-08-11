@@ -47,9 +47,17 @@ require(['backbone'], function (Backbone) {
 
   });
 
+  var AppView = Backbone.View.extend({
+    el: "body",
+    initialize: function() {
+      this.shelf = new ShelfView();
+      this.shelf.render();
+    }
+  });
+
 
   $(function() {
-    var books = new ShelfView();
+    var app = new AppView();
   });
 
 
