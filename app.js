@@ -8,6 +8,13 @@ require(['backbone'], function (Backbone) {
     $(".alert-info").fadeOut();
   }
 
+  function showError() {
+    $(".alert-error").fadeIn();
+  }
+  function hideError() {
+    $(".alert-error").fadeOut();
+  }
+
   var Book = Backbone.Model.extend({
     defaults: { borrower: null },
     url: "http://rkyve.herokuapp.com/books"
@@ -98,6 +105,7 @@ require(['backbone'], function (Backbone) {
       var borrower = prompt("Please enter your name: ");
 
       showProcess();
+      hideError();
       $.ajax({
         url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
@@ -105,6 +113,9 @@ require(['backbone'], function (Backbone) {
         type: "PUT",
         success: function(d) {
           self.shelf.render();
+        },
+        error: function(d) {
+          showError();
         },
         data: JSON.stringify({ id: window.currentBook, borrower: borrower })
       });
@@ -126,6 +137,7 @@ require(['backbone'], function (Backbone) {
       };
       console.log(formData);
       showProcess();
+      hideError();
       $.ajax({
         url: "http://rkyve.herokuapp.com/books.json",
         dataType: 'json',
@@ -136,8 +148,8 @@ require(['backbone'], function (Backbone) {
           self.shelf.render();
         },
         error: function(d) {
-          //TODO: show a flash message or something?
           console.log("ERROR", d);
+          showError();
           self.shelf.render();
         },
         data: JSON.stringify(formData)
@@ -150,6 +162,7 @@ require(['backbone'], function (Backbone) {
       var bookId = elem.attr("href").split("#")[1]
       window.currentBook = bookId;
       showProcess();
+      hideError();
       $.ajax({
         url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
@@ -158,6 +171,7 @@ require(['backbone'], function (Backbone) {
         success: function(d) {
           self.shelf.render();
         },
+        error: function() { showError(); },
         data: JSON.stringify({ id: window.currentBook, borrower: null })
       });
     },
