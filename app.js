@@ -62,7 +62,8 @@ require(['backbone'], function (Backbone) {
       "click #viewBooksButton":"showViewBooks",
       "submit #checkout_book_form":"checkOutBook",
       "click .checkOutBookButton": "showCheckOutBook",
-      "submit #add_book form": "addBook"
+      "submit #add_book form": "addBook",
+      "click .checkInBookButton": "checkInBook"
     },
     showAddBook:function(){
       $(".page").hide();
@@ -124,6 +125,24 @@ require(['backbone'], function (Backbone) {
           $("#viewBooksButton").trigger("click");
         },
         data: JSON.stringify(formData)
+      });
+    },
+    checkInBook: function(event) {
+      var self = this;
+      event.preventDefault();
+      var elem = $(event.target);
+      var bookId = elem.attr("href").split("#")[1]
+      window.currentBook = bookId;
+      $.ajax({
+        url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
+        dataType: 'json',
+        contentType: 'application/json',
+        type: "PUT",
+        success: function(d) {
+          self.shelf.render();
+          $("viewBooksButton").trigger("click");
+        },
+        data: JSON.stringify({ id: window.currentBook, borrower: null })
       });
     }
   });
