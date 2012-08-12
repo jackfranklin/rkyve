@@ -5,7 +5,7 @@
     <title>RKyve</title>
     <script src="jam/require.js" type="text/javascript" charset="utf-8"></script>
     <script src="app.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <ul id="nav">
@@ -13,7 +13,8 @@
       <li><a href="#" id="addBookButton">Add Book</a></li>
     </ul>
     <div id="all_books" class="page">
-      <ul></ul>
+      <table>
+      </table>
     </div>
     <div id="add_book" class="page">
       <form>
@@ -44,21 +45,19 @@
     </div>
 
     <script id="single_book_template" type="text/template">
-      <div>
-        <h2>Title: <%= title %></h2>
-        <p>Owner: <%= owner %></p>
-        <p>Location: <%= location %></p>
+        <td>Title: <%= title %></td>
+        <td>Owner: <%= owner %></td>
+        <td>Location: <%= location %></td>
         <% if(borrower !== null) { %>
-          <p>Borrower: <%= borrower %></p>
+          <td>Borrower: <%= borrower %></td>
         <% } %>
-        <p>
+        <td>
           <% if(borrower === null) { %>
             <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
           <% } else { %>
             <a href="#<%= id %>" class="checkInBookButton">Check In</a>
           <% } %>
-        </p>
-      </div>
+        </td>
     </script>
   </body>
 </html>

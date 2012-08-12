@@ -14,7 +14,7 @@ require(['backbone'], function (Backbone) {
 
 
   var BookView = Backbone.View.extend({
-    tagName: "li",
+    tagName: "tr",
     className: "book-individual",
     template: $("#single_book_template").html(),
 
@@ -28,7 +28,7 @@ require(['backbone'], function (Backbone) {
 
   var bookShelf = new Shelf();
   var ShelfView = Backbone.View.extend({
-    el: $("#all_books"),
+    el: $("#all_books table"),
     initialize: function() {
       this.collection = bookShelf;
       this.render();
