@@ -86,13 +86,13 @@
       <h2><%= title %></h2>
       <div id="meta"><p><%= owner %> :: <%= location %></div>
       <% if(borrower !== null) { %>
-        <span id="book_taken">TAKEN</span>
+        <span id="book_taken" class="alert alert-error">TAKEN</span>
       <% } else { %>
-        <span id="book_free">BOOK FREE</span>
+        <span id="book_free" class="alert alert-success">AVAILABLE</span>
       <% } %>
-      <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
-      ::
-      <a href="#<%= id %>" class="checkInBookButton">Check In</a>
+      <div style="margin-top: 20px; ">
+        <p><a href="#<%= id %>" class="checkOutBookButton">Check Out</a> :: <a href="#<%= id %>" class="checkInBookButton">Check In</a></p>
+      </div>
     </script>
   </body>
 </html>

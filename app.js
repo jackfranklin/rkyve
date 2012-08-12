@@ -18,12 +18,12 @@ require(['backbone'], function (Backbone) {
 
   var Book = Backbone.Model.extend({
     defaults: { borrower: null },
-    url: "http://rkyve.herokuapp.com/books"
+    url: "http://rkyve-api.herokuapp.com/books"
   });
 
   var Shelf = Backbone.Collection.extend({
     model: Book,
-    url: "http://rkyve.herokuapp.com/books.json"
+    url: "http://rkyve-api.herokuapp.com/books.json"
   });
 
 
@@ -184,7 +184,7 @@ require(['backbone'], function (Backbone) {
       var item = bookShelf.get(window.currentBook);
       console.log(item);
       var detailedBook = new DetailedBookView({ model: item });
-      $("#detailed_view").html(detailedBook.render().el);
+      detailedBook.render();
     }
   });
 
