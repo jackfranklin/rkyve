@@ -108,7 +108,7 @@ require(['backbone'], function (Backbone) {
       showProcess();
       hideError();
       $.ajax({
-        url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
+        url: "http://rkyve-api.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
         contentType: 'application/json',
         type: "PUT",
@@ -140,7 +140,7 @@ require(['backbone'], function (Backbone) {
       showProcess();
       hideError();
       $.ajax({
-        url: "http://rkyve.herokuapp.com/books.json",
+        url: "http://rkyve-api.herokuapp.com/books.json",
         dataType: 'json',
         contentType: 'application/json',
         type: "POST",
@@ -165,7 +165,7 @@ require(['backbone'], function (Backbone) {
       showProcess();
       hideError();
       $.ajax({
-        url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
+        url: "http://rkyve-api.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
         contentType: 'application/json',
         type: "PUT",
