@@ -35,6 +35,7 @@ require(['backbone'], function (Backbone) {
     },
     render: function() {
       var self = this;
+      self.$el.html("");
       bookShelf.fetch({
         success: function() {
           self.collection.each(function(item) {
@@ -60,7 +61,8 @@ require(['backbone'], function (Backbone) {
       "click #addBookButton":"showAddBook",
       "click #viewBooksButton":"showViewBooks",
       "submit #checkout_book_form":"checkOutBook",
-      "click .checkOutBookButton": "showCheckOutBook"
+      "click .checkOutBookButton": "showCheckOutBook",
+      "submit #add_book form": "addBook"
     },
     showAddBook:function(){
       $(".page").hide();
@@ -81,6 +83,7 @@ require(['backbone'], function (Backbone) {
       return false;
     },
     checkOutBook: function(event) {
+      var self = this;
       event.preventDefault();
       var formData = $("#checkout_book_form").serialize();
       console.log(formData);
@@ -90,7 +93,10 @@ require(['backbone'], function (Backbone) {
         dataType: 'json',
         contentType: 'application/json',
         type: "PUT",
-        success: function(d) { alert(d); },
+        success: function(d) {
+          self.shelf.render();
+          $("viewBooksButton").trigger("click");
+        },
         data: JSON.stringify({ id: window.currentBook, borrower: formData.split("=")[1] })
       });
       //var book = new Book({
@@ -99,6 +105,26 @@ require(['backbone'], function (Backbone) {
       //});
       //book.save({wait: true});
       //for now Backbone.save gives errors so lets just POST manually
+    },
+    addBook: function(event) {
+      var self = this;
+      event.preventDefault();
+      var formData = {
+        title: $("#bookTitle").val(),
+        owner: $("#bookOwner").val(),
+        location: $("#bookLocation").val()
+      };
+      $.ajax({
+        url: "http://rkyve.herokuapp.com/books.json",
+        dataType: 'json',
+        contentType: 'application/json',
+        type: "POST",
+        success: function(d) {
+          self.shelf.render();
+          $("#viewBooksButton").trigger("click");
+        },
+        data: JSON.stringify(formData)
+      });
     }
   });
 
