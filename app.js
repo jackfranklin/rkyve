@@ -8,8 +8,9 @@ require(['backbone'], function (Backbone) {
     $(".alert-info").fadeOut();
   }
 
-  function showError() {
-    $(".alert-error").fadeIn();
+  function showError(text) {
+    text = text || "";
+    $(".alert-error").text($(".alert-error").text() + ": " + text).fadeIn();
   }
   function hideError() {
     $(".alert-error").fadeOut();
@@ -115,7 +116,7 @@ require(['backbone'], function (Backbone) {
           self.shelf.render();
         },
         error: function(d) {
-          showError();
+          showError(d.responseText);
         },
         data: JSON.stringify({ id: window.currentBook, borrower: borrower })
       });
@@ -149,7 +150,7 @@ require(['backbone'], function (Backbone) {
         },
         error: function(d) {
           console.log("ERROR", d);
-          showError();
+          showError(d.responseText);
           self.shelf.render();
         },
         data: JSON.stringify(formData)
