@@ -58,10 +58,30 @@
             </form>
           </div>
         </span>
-        <span class="span8">
+        <span class="span4">
           <h3>Detailed View</h3>
           <div id="detailed_view" class="page">Select a book from above to view in more detail here</div>
         </span>
+        <span class="span4">
+          <h3>Search</h3>
+          <div id="search_view" class="page">
+            <form>
+              <input type="text" id="search_for" />
+              <select id="search_by">
+                <option name="author">Author</option>
+                <option name="title">Title</option>
+                <option name="owner">Owner</option>
+                <option name="tag">Tag</option>
+              </select>
+              <input type="submit" name="Search" />
+            </form>
+
+            <h3>Results</h3>
+            <table class="table table-condensed">
+              <thead><th>Title</th><th>Owner</th></thead>
+              <tbody></tbody>
+            </table>
+          </div>
       </div><!-- end row -->
     </div>
     <script id="single_book_template" type="text/template">
@@ -93,6 +113,12 @@
       <div style="margin-top: 20px; ">
         <p><a href="#<%= id %>" class="checkOutBookButton">Check Out</a> :: <a href="#<%= id %>" class="checkInBookButton">Check In</a></p>
       </div>
+      <p>Tags: <%= (tags != null) ? tags : 'None' %></p>
+      <p>Author: <%= author %></p>
+    </script>
+
+    <script id="search_result_template" type="text/template">
+      <td><a href="#<%= id %>" class="viewIndividualButton"><%= title %></a></td><td><%= owner %></td>
     </script>
   </body>
 </html>

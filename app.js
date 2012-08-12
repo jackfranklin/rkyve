@@ -40,6 +40,17 @@ require(['backbone'], function (Backbone) {
 
   });
 
+  var SearchResultBookView = Backbone.View.extend({
+    tagName: "tr",
+    template: $("#search_result_template").html(),
+
+    render: function() {
+      var templ = _.template(this.template);
+      this.$el.html(templ(this.model.toJSON()));
+      return this;
+    }
+  });
+
   var DetailedBookView = Backbone.View.extend({
     el: "#detailed_view",
     template: $("#detailed_single_book_template").html(),
@@ -50,6 +61,18 @@ require(['backbone'], function (Backbone) {
     }
   });
 
+  var SearchShelf = Backbone.View.extend({
+    el: $("#search_view table tbody"),
+    render: function(collection) {
+      var self = this;
+      self.$el.html("");
+      showProcess();
+      collection.each(function(item) {
+        var book = new SearchResultBookView({ model: item });
+        this.$el.append(book.render().el);
+      }, self);
+    }
+  });
 
   var bookShelf = new Shelf();
   var ShelfView = Backbone.View.extend({
@@ -89,7 +112,38 @@ require(['backbone'], function (Backbone) {
       "click .checkOutBookButton": "checkOutBook",
       "submit #add_book form": "addBook",
       "click .checkInBookButton": "checkInBook",
-      "click .viewIndividualButton": "viewDetailedBook"
+      "click .viewIndividualButton": "viewDetailedBook",
+      "submit #search_view form": "search"
+    },
+    search: function(event) {
+      event.preventDefault();
+      var searchFor = $("#search_for").val();
+      var searchBy = $("#search_by").val();
+      showProcess();
+      hideError();
+      if(searchBy == "Tag") {
+        var urlForSearch = "http://rkyve-api.herokuapp.com/books/tag.json?tag=" + searchFor;
+      } else {
+        var urlForSearch = "http://rkyve-api.herokuapp.com/books/" + searchBy.toLowerCase() + ".json?partial=" + searchFor;
+      }
+      console.log("URL ", urlForSearch);
+      $.ajax({
+        url: urlForSearch,
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(d) {
+          console.log("SUCCESS", d);
+          var searchShelf = new SearchShelf();
+          searchShelf.render(new Shelf(d));
+          hideProcess();
+        },
+        error: function(d) {
+          console.log("ERROR", d);
+          hideProcess();
+          showError(d.responseText);
+        }
+      });
     },
     showCheckOutBook: function(d) {
       var elem = $(d.target);
