@@ -26,9 +26,19 @@ require(['backbone'], function (Backbone) {
 
   });
 
+  var DetailedBookView = Backbone.View.extend({
+    el: "#detailed_view",
+    template: $("#detailed_single_book_template").html(),
+    render: function() {
+      var templ = _.template(this.template);
+      this.$el.html(templ(this.model.toJSON()));
+    }
+  });
+
+
   var bookShelf = new Shelf();
   var ShelfView = Backbone.View.extend({
-    el: $("#all_books table"),
+    el: $("#all_books table tbody"),
     initialize: function() {
       this.collection = bookShelf;
       this.render();
@@ -51,6 +61,7 @@ require(['backbone'], function (Backbone) {
 
   });
 
+
   var AppView = Backbone.View.extend({
     el: "body",
     initialize: function() {
@@ -63,7 +74,8 @@ require(['backbone'], function (Backbone) {
       "submit #checkout_book_form":"checkOutBook",
       "click .checkOutBookButton": "showCheckOutBook",
       "submit #add_book form": "addBook",
-      "click .checkInBookButton": "checkInBook"
+      "click .checkInBookButton": "checkInBook",
+      "click .viewIndividualButton": "viewDetailedBook"
     },
     showAddBook:function(){
       $(".page").hide();
@@ -124,6 +136,11 @@ require(['backbone'], function (Backbone) {
           self.shelf.render();
           $("#viewBooksButton").trigger("click");
         },
+        error: function(d) {
+          //TODO: show a flash message or something?
+          self.shelf.render();
+          $("#viewBooksButton").trigger("click");
+        },
         data: JSON.stringify(formData)
       });
     },
@@ -144,6 +161,18 @@ require(['backbone'], function (Backbone) {
         },
         data: JSON.stringify({ id: window.currentBook, borrower: null })
       });
+    },
+    viewDetailedBook: function(event) {
+      $(".page").hide();
+      $("#detailed_view").show();
+      event.preventDefault();
+      var elem = $(event.target);
+      var bookId = elem.attr("href").split("#")[1]
+      window.currentBook = bookId;
+      var item = bookShelf.get(window.currentBook);
+      console.log(item);
+      var detailedBook = new DetailedBookView({ model: item });
+      $("#detailed_view").html(detailedBook.render().el);
     }
   });
 

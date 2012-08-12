@@ -36,12 +36,13 @@ tr {
   border-left: 1px solid #C1DAD7;
 }
 
-td {
+td, th {
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	background: #fff;
 	padding: 6px 6px 6px 12px;
 	color: #6D929B;
 }
+th { font-weight: bold; }
 
 

@@ -14,6 +14,8 @@
     </ul>
     <div id="all_books" class="page">
       <table>
+        <thead><th>ID</th><th>Title</th><th>Owner</th><th>Location</th><th>Borrower</th><th>Action</th><th>View</th></thead>
+        <tbody></tbody>
       </table>
     </div>
     <div id="add_book" class="page">
@@ -44,20 +46,39 @@
       </form>
     </div>
 
+    <div id="detailed_view" class="page"></div>
+
     <script id="single_book_template" type="text/template">
-        <td>Title: <%= title %></td>
-        <td>Owner: <%= owner %></td>
-        <td>Location: <%= location %></td>
-        <% if(borrower !== null) { %>
-          <td>Borrower: <%= borrower %></td>
-        <% } %>
+        <td><%= id %></td>
+        <td><%= title %></td>
+        <td><%= owner %></td>
+        <td><%= location %></td>
         <td>
-          <% if(borrower === null) { %>
-            <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
+          <% if(borrower !== null) { %>
+            <%= borrower %></td>
           <% } else { %>
-            <a href="#<%= id %>" class="checkInBookButton">Check In</a>
+            Free
           <% } %>
         </td>
+        <td>
+          <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
+          ::
+          <a href="#<%= id %>" class="checkInBookButton">Check In</a>
+        </td>
+        <td><a href="#<%= id %>" class="viewIndividualButton">Detail View</a></td>
+    </script>
+
+    <script id="detailed_single_book_template" type="text/template">
+      <h2><%= title %></h2>
+      <div id="meta"><p><%= owner %> :: <%= location %></div>
+      <% if(borrower !== null) { %>
+        <span id="book_taken">TAKEN</span>
+      <% } else { %>
+        <span id="book_free">BOOK FREE</span>
+      <% } %>
+      <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
+      ::
+      <a href="#<%= id %>" class="checkInBookButton">Check In</a>
     </script>
   </body>
 </html>
