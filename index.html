@@ -26,7 +26,7 @@
       <div id="all_books" class="page row">
         <span class="span12">
           <table class="table-bordered table-striped table">
-            <thead><th>Title</th><th>Owner</th><th>Location</th><th>Borrower</th><th>Action</th></thead>
+            <thead><th>Title</th><th>Owner</th><th>Location</th><th>Borrower</th></thead>
             <tbody></tbody>
           </table>
         </span>
@@ -54,7 +54,7 @@
                 <label for="bookAuthor">Author</label>
                 <input type="text" id="bookAuthor" />
               </div>
-              <input type="submit" />
+              <input type="submit" value="Add Book" />
             </form>
           </div>
         </span>
@@ -69,11 +69,11 @@
               <input type="text" id="search_for" />
               <select id="search_by">
                 <option name="author">Author</option>
-                <option name="title">Title</option>
+                <option name="title" selected>Title</option>
                 <option name="owner">Owner</option>
                 <option name="tag">Tag</option>
               </select>
-              <input type="submit" name="Search" />
+              <input type="submit" name="Search" value="Search"/>
             </form>
 
             <h3>Results</h3>
@@ -94,11 +94,6 @@
           <% } else { %>
             Free
           <% } %>
-        </td>
-        <td>
-          <a href="#<%= id %>" class="checkOutBookButton">Check Out</a>
-          ::
-          <a href="#<%= id %>" class="checkInBookButton">Check In</a>
         </td>
     </script>
 
