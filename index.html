@@ -5,52 +5,66 @@
     <title>RKyve</title>
     <script src="jam/require.js" type="text/javascript" charset="utf-8"></script>
     <script src="app.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="/jam/bootstrap/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="/jam/bootstrap/css/bootstrap-responsive.min.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <ul id="nav">
-      <li><a href="#" id="viewBooksButton">View all Books</a></li>
-      <li><a href="#" id="addBookButton">Add Book</a></li>
-    </ul>
-    <div id="all_books" class="page">
-      <table>
-        <thead><th>ID</th><th>Title</th><th>Owner</th><th>Location</th><th>Borrower</th><th>Action</th><th>View</th></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div id="add_book" class="page">
-      <form>
-        <div>
-          <label for="bookTitle">Title</label>
-          <input type="text" id="bookTitle" />
-        </div>
-        <div>
-          <label for="bookOwner">Owner</label>
-          <input type="text" id="bookOwner" />
-        </div>
-        <div>
-          <label for="bookLocation">Location</label>
-          <input type="text" id="bookLocation" />
-        </div>
-        <input type="submit" />
-      </form>
-    </div>
 
-    <div id="checkout_book" class="page">
-      <form id="checkout_book_form">
-        <div>
-          <label>Your Name: </label>
-          <input type="text" name="borrower" id="borrower" />
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand">RKyve</a>
         </div>
-        <input type="submit" value="Check Out!" />
-      </form>
+      </div>
+    </div><!-- end nav bar -->
+    <div class="container-fluid">
+      <div class="alert alert-info">Processing...</div>
     </div>
-
-    <div id="detailed_view" class="page"></div>
-
+    <div class="container-fluid">
+      <div id="all_books" class="page row">
+        <span class="span12">
+          <table class="table-bordered table-striped table">
+            <thead><th>ID</th><th>Title</th><th>Owner</th><th>Location</th><th>Borrower</th><th>Action</th></thead>
+            <tbody></tbody>
+          </table>
+        </span>
+      </div><!--end all books -->
+      <hr />
+      <div class="row">
+        <span class="span4">
+          <h3>Add a Book</h3>
+          <div id="add_book" class="page">
+            <form>
+              <div>
+                <label for="bookTitle">Title</label>
+                <input type="text" id="bookTitle" />
+              </div>
+              <div>
+                <label for="bookOwner">Owner</label>
+                <input type="text" id="bookOwner" />
+              </div>
+              <div>
+                <label for="bookLocation">Location</label>
+                <input type="text" id="bookLocation" />
+              </div>
+              <div>
+                <label for="bookAuthor">Author</label>
+                <input type="text" id="bookAuthor" />
+              </div>
+              <input type="submit" />
+            </form>
+          </div>
+        </span>
+        <span class="span8">
+          <h3>Detailed View</h3>
+          <div id="detailed_view" class="page">Select a book from above to view in more detail here</div>
+        </span>
+      </div><!-- end row -->
+    </div>
     <script id="single_book_template" type="text/template">
         <td><%= id %></td>
-        <td><%= title %></td>
+        <td><a href="#<%=id %>" class="viewIndividualButton"><%= title %></a></td>
         <td><%= owner %></td>
         <td><%= location %></td>
         <td>
@@ -65,7 +79,6 @@
           ::
           <a href="#<%= id %>" class="checkInBookButton">Check In</a>
         </td>
-        <td><a href="#<%= id %>" class="viewIndividualButton">Detail View</a></td>
     </script>
 
     <script id="detailed_single_book_template" type="text/template">

@@ -1,6 +1,12 @@
 
 require(['backbone'], function (Backbone) {
   window.currentBook = null;
+  function showProcess() {
+    $(".alert-info").fadeIn();
+  }
+  function hideProcess() {
+    $(".alert-info").fadeOut();
+  }
 
   var Book = Backbone.Model.extend({
     defaults: { borrower: null },
@@ -30,6 +36,7 @@ require(['backbone'], function (Backbone) {
     el: "#detailed_view",
     template: $("#detailed_single_book_template").html(),
     render: function() {
+      this.$el.html("");
       var templ = _.template(this.template);
       this.$el.html(templ(this.model.toJSON()));
     }
@@ -46,11 +53,13 @@ require(['backbone'], function (Backbone) {
     render: function() {
       var self = this;
       self.$el.html("");
+      showProcess();
       bookShelf.fetch({
         success: function() {
           self.collection.each(function(item) {
             this.renderItem(item);
           }, self);
+          hideProcess();
         }
       });
     },
@@ -69,38 +78,26 @@ require(['backbone'], function (Backbone) {
       this.shelf = new ShelfView();
     },
     events: {
-      "click #addBookButton":"showAddBook",
-      "click #viewBooksButton":"showViewBooks",
-      "submit #checkout_book_form":"checkOutBook",
-      "click .checkOutBookButton": "showCheckOutBook",
+      "click .checkOutBookButton": "checkOutBook",
       "submit #add_book form": "addBook",
       "click .checkInBookButton": "checkInBook",
       "click .viewIndividualButton": "viewDetailedBook"
-    },
-    showAddBook:function(){
-      $(".page").hide();
-      $("#add_book").show();
-      return false;
-    },
-    showViewBooks:function() {
-      $(".page").hide();
-      $("#all_books").show();
-      return false;
     },
     showCheckOutBook: function(d) {
       var elem = $(d.target);
       var bookId = elem.attr("href").split("#")[1]
       window.currentBook = bookId;
-      $(".page").hide();
-      $("#checkout_book").show();
       return false;
     },
     checkOutBook: function(event) {
       var self = this;
+      var elem = $(event.target);
+      var bookId = elem.attr("href").split("#")[1]
+      window.currentBook = bookId;
       event.preventDefault();
-      var formData = $("#checkout_book_form").serialize();
-      console.log(formData);
+      var borrower = prompt("Please enter your name: ");
 
+      showProcess();
       $.ajax({
         url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
@@ -108,9 +105,8 @@ require(['backbone'], function (Backbone) {
         type: "PUT",
         success: function(d) {
           self.shelf.render();
-          $("viewBooksButton").trigger("click");
         },
-        data: JSON.stringify({ id: window.currentBook, borrower: formData.split("=")[1] })
+        data: JSON.stringify({ id: window.currentBook, borrower: borrower })
       });
       //var book = new Book({
         //id: window.currentBook,
@@ -125,21 +121,24 @@ require(['backbone'], function (Backbone) {
       var formData = {
         title: $("#bookTitle").val(),
         owner: $("#bookOwner").val(),
-        location: $("#bookLocation").val()
+        location: $("#bookLocation").val(),
+        author: $("#bookAuthor").val()
       };
+      console.log(formData);
+      showProcess();
       $.ajax({
         url: "http://rkyve.herokuapp.com/books.json",
         dataType: 'json',
         contentType: 'application/json',
         type: "POST",
         success: function(d) {
+          console.log("SUCCESS", d);
           self.shelf.render();
-          $("#viewBooksButton").trigger("click");
         },
         error: function(d) {
           //TODO: show a flash message or something?
+          console.log("ERROR", d);
           self.shelf.render();
-          $("#viewBooksButton").trigger("click");
         },
         data: JSON.stringify(formData)
       });
@@ -150,6 +149,7 @@ require(['backbone'], function (Backbone) {
       var elem = $(event.target);
       var bookId = elem.attr("href").split("#")[1]
       window.currentBook = bookId;
+      showProcess();
       $.ajax({
         url: "http://rkyve.herokuapp.com/books/" + window.currentBook + ".json",
         dataType: 'json',
@@ -157,14 +157,11 @@ require(['backbone'], function (Backbone) {
         type: "PUT",
         success: function(d) {
           self.shelf.render();
-          $("viewBooksButton").trigger("click");
         },
         data: JSON.stringify({ id: window.currentBook, borrower: null })
       });
     },
     viewDetailedBook: function(event) {
-      $(".page").hide();
-      $("#detailed_view").show();
       event.preventDefault();
       var elem = $(event.target);
       var bookId = elem.attr("href").split("#")[1]

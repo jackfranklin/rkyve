@@ -6,6 +6,10 @@ var jam = {
             "main": "backbone.js"
         },
         {
+            "name": "bootstrap",
+            "location": "jam/bootstrap"
+        },
+        {
             "name": "jquery",
             "location": "jam/jquery",
             "main": "jquery.js"
